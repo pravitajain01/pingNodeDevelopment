@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link rel="stylesheet" href="../css/style.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+    rel="stylesheet">
+
+  <script>
+    const copyToClipboard = async (elementId) => {
+      const copyText = document.getElementById(elementId).innerText;
+      try {
+        await navigator.clipboard.writeText(copyText);
+        alert("Text Copied!")
+      } catch (err) {
+        console.error('Failed to copy: ', err);
+      }
+    }
+
+  </script>
+</head>
+
+<body>
+  <div class="header-container">
+    <a class="d-block" href="/">
+      <img width="132" src="../assets/ping-logo-horizontal.svg" alt="Logo" />
+    </a>
+    <a href="logout">Sign Off</a>
+  </div>
+
+  <div class="body-container">
+    <div class="card">
+      <div>
+        <span>Access Token</span>
+        <div class="token-container d-flex">
+          <div style="width:100%; overflow-y: auto;">
+            <span class="token" id="accessToken">
+              <%= accessToken %>
+            </span>
+          </div>
+          <button class="token-copy-button" onclick="copyToClipboard('accessToken')">
+            <img src="../assets/clipboard.svg" alt="Copy to Clipboard" />
+          </button>
+        </div>
+      </div>
+
+      <div style="padding-top:15px">
+        <span>Id Token</span>
+        <div class="token-container d-flex">
+          <div style="width:100%; overflow-y: auto;">
+            <span class="token" id="idToken">
+              <%= idToken %>
+            </span>
+          </div>
+          <button class="token-copy-button" onclick="copyToClipboard('idToken')">
+            <img src="../assets/clipboard.svg" alt="Copy to Clipboard" />
+          </button>
+        </div>
+      </div>
+
+      <div style="padding-top:22px">
+        <a class="link" href="https://developer.pingidentity.com/en/tools/jwt-decoder.html" target="_blank">
+          Ping Identity JWT Decoder
+        </a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="placeholder d-flex justify-content-between align-items-center">
+        <div class="flex-grow-1">
+          <div class="text-placeholder bottom size-md width-xl"></div>
+          <div class="text-placeholder bottom size-md width-xl"></div>
+          <div class="text-placeholder size-md width-md" style="margin-bottom: 35px;"></div>
+        </div>
+        <div class="button-placeholder"></div>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>
