@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PingOne DaVinci Login</title>
+  <script src="https://assets.pingone.com/davinci/latest/davinci.js"></script>
+</head>
+<body>
+  <h2>Login with PingOne DaVinci</h2>
+  <div id="widget" class="skWidget">Loading login flow...</div>
+
+  <script>
+    const companyId = "2422107b-7011-48bb-8366-735e927271f2";
+      const skApiKey = "67325a24e28d69f37f5c49a66cfe4771d5ad368e0a7641c20b099418f69fcc28bfaf7bd2e0d2c0ef5f0eb42e722efd2354b2b4d6ef67c1f5426dc39ba3af8180b5e8ef2007e596822ce0d31a037baa0b674c7468e7a1ed7628cfdfecb8ecce5db58597dbab62944c0f431ef8fe94797f9968f0980678bd610973d25df2e34c13";
+
+      //*** Build the get SK Token URL. ***/
+      const skGetTokenUrl =
+        "https://orchestrate-api.pingone.com/v1/company/"+companyId+"/sdktoken";
+
+      //*** Add the API Key from your DaVinci application. ***/
+      var headers = new Headers();
+      headers.append("X-SK-API-KEY", skApiKey);
+      //headers.append( "mode", 'no-cors');
+
+      var requestOptions = {
+        method: "GET",
+        headers: headers,
+        redirect: "follow",
+      };
+
+      //*** Retrieve SK Token ***/
+      fetch(skGetTokenUrl, requestOptions)
+        .then((response) => response.json())
+        .then((responseData) => {
+          console.log('responseData === ' , responseData);
+          var props = {
+            config: {
+              method: "runFlow",
+              apiRoot: "https://auth.pingone.com/",
+              accessToken: responseData.access_token,
+              companyId: responseData.companyId,
+              policyId: "eaaacbd2b5dc514e3bedb6e1b3e4e571",
+            },
+            useModal: false,
+            successCallback,
+            errorCallback,
+            onCloseModal,
+          };
+          /*** Invoke the Widget ****/
+          console.log('davinci === ' , davinci);
+          davinci.skRenderScreen(
+            document.getElementsByClassName("skWidget")[0],
+            props
+          );
+        })
+        .catch((error) => console.log("error", error));
+
+      function successCallback(response) {
+        console.log(response);
+      }
+
+      function errorCallback(error) {
+        console.log(error);
+      }
+
+      function onCloseModal() {
+        console.log("onCloseModal");
+      }  
+  </script>
+  
+</body>
+</html>
